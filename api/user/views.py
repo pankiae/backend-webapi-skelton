@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
-from creatorsparadise.settings import GOOGLE_CLIENT_ID
+from skelton.settings import GOOGLE_CLIENT_ID
 from utils.account_activation import send_activation_email
 
 from .models import Provider, User
