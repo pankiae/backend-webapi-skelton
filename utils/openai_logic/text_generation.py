@@ -1,4 +1,4 @@
-from openai_logic.client_create import client
+from utils.openai_logic.client_create import client
 
 
 def text_generation(q): # q = query
