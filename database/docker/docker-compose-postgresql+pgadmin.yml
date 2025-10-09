@@ -1,0 +1,47 @@
+services:
+  # --------------------
+  # 1. PostgreSQL Database Service
+  # --------------------
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      # Required for PostgreSQL setup
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpassword
+      POSTGRES_DB: dev
+    volumes:
+      # Persist data outside the container so it's not lost on stop/restart
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # Expose the standard PostgreSQL port (5432) to your host machine
+      - "5432:5432"
+
+  # --------------------
+  # 2. pgAdmin Service
+  # --------------------
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_server
+    restart: always
+    environment:
+      # Required for pgAdmin login
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
+    volumes:
+      # Persist configuration data for pgAdmin
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      # Expose pgAdmin web interface (usually port 80) to a different port on your host (e.g., 8080)
+      - "8080:80"
+    depends_on:
+      # Ensure PostgreSQL starts before pgAdmin attempts to connect
+      - postgres
+
+# --------------------
+# 3. Volumes for Persistence
+# --------------------
+volumes:
+  postgres_data:
+  pgadmin_data:
