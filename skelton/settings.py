@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     "api.user",
+    "api.openai_content"
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication', # Optional
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
 
 ROOT_URLCONF = "skelton.urls"
 AUTH_USER_MODEL = "user.User"
