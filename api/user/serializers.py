@@ -37,6 +37,10 @@ class EmailRegistrationSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["id"]
 
+    def validate_email(self, value):
+        # Ensure email is stored in lowercase
+        return value.strip().lower()
+
     def create(self, validated_data):
         # Remove password from validated_data, then call your UserManager.create_user()
         password = validated_data.pop("password")
