@@ -13,7 +13,7 @@ from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 from skelton.settings import GOOGLE_CLIENT_ID
-from utils.account_activation import send_activation_email
+from utils.auth.account_activation import send_activation_email
 
 from .models import Provider, User
 from .serializers import (
@@ -196,6 +196,7 @@ class EmailLoginAPIView(GenericAPIView):
 class GoogleAuthView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         id_token_value = request.data.get("id_token")
+        print(f"{id_token_value= }")
         if not id_token_value:
             return Response(
                 {"message": "Google ID token is required.", "status": False},
@@ -207,6 +208,7 @@ class GoogleAuthView(GenericAPIView):
             idinfo = google_id_token.verify_oauth2_token(
                 id_token_value, requests.Request(), GOOGLE_CLIENT_ID
             )
+            print(f"{idinfo= }")
             email = idinfo.get("email")
             name = idinfo.get("name")
             email_verified = idinfo.get("email_verified", False)

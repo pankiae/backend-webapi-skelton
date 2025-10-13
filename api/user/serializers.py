@@ -10,7 +10,7 @@ from rest_framework_simplejwt.tokens import (
     RefreshToken,
 )
 
-from utils.forgot_password import send_password_reset_email
+from utils.auth.forgot_password import send_password_reset_email
 
 User = get_user_model()
 
@@ -36,6 +36,10 @@ class EmailRegistrationSerializer(serializers.ModelSerializer):
             "password",
         ]
         read_only_fields = ["id"]
+
+    def validate_email(self, value):
+        # Ensure email is stored in lowercase
+        return value.strip().lower()
 
     def create(self, validated_data):
         # Remove password from validated_data, then call your UserManager.create_user()
